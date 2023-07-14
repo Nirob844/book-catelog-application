@@ -4,10 +4,6 @@ import { Link } from "react-router-dom";
 import { createUser } from "../../../redux/features/user/UserSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 
-interface SignupFormInputs {
-  email: string;
-  password: string;
-}
 type Inputs = {
   email: string;
   password: string;
@@ -32,6 +28,12 @@ export default function SignUp() {
   console.log(watch("example"));
   return (
     <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 dark:bg-gray-900 dark:text-gray-100 mx-auto my-10">
+      <div className="mb-8 text-center">
+        <h1 className="my-3 text-4xl font-bold">Sign Up</h1>
+        <p className="text-sm dark:text-gray-400">
+          Sign up to create your account
+        </p>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-12">
         <div className="space-y-4">
           <div>
@@ -83,7 +85,7 @@ export default function SignUp() {
           </div>
           <p className="px-6 text-sm text-center dark:text-gray-400">
             Already have an account?{" "}
-            <Link to="/signin" className="hover:underline dark:text-violet-400">
+            <Link to="/login" className="hover:underline dark:text-violet-400">
               Sign in
             </Link>
             .
