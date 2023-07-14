@@ -7,7 +7,7 @@ const bookApi = api.injectEndpoints({
     }),
     singleBook: builder.query({
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      query: (id) => `/product/${id}`,
+      query: (id) => `/book/${id}`,
     }),
     //   qpostComment: builder.mutation({
     //     uery: ({ id, data }) => ({

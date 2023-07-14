@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
+import { IBook } from "../../../types/globalTypes";
 
-export default function AllBook({ book }) {
-  const { title, image, genre, publicationDate } = book;
+interface IProps {
+  book: IBook;
+}
+
+export default function AllBook({ book }: IProps) {
+  const { title, image, genre, author, price, publicationDate } = book;
 
   return (
-    <Link to="" aria-label="View Item">
+    <Link to={`/book-details/${book._id}`} aria-label="View Item">
       <div className="relative overflow-hidden transition duration-200 transform rounded shadow-lg hover:-translate-y-2 hover:shadow-2xl">
         <img
           className="object-cover w-full h-56 md:h-64 xl:h-80"
@@ -16,7 +21,13 @@ export default function AllBook({ book }) {
             Book Name: {title}
           </p>
           <br />
-          <p className="text-sm tracking-wide text-gray-300">Genre:{genre}</p>
+          <p className="text-sm tracking-wide text-gray-300">
+            Author: {author}
+          </p>
+          <br />
+          <p className="text-sm tracking-wide text-gray-300">Genre: {genre}</p>
+          <br />
+          <p className="text-sm tracking-wide text-gray-300">Price: {price}$</p>
           <br />
           <p className="text-sm tracking-wide text-gray-300">
             Publication Date: {publicationDate}
