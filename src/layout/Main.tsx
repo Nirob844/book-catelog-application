@@ -6,7 +6,7 @@ export default function Main() {
   return (
     <div>
       <Navbar />
-      <div className="pt-16">
+      <div className="">
         <Outlet />
       </div>
       <Footer />
