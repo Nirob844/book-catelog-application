@@ -1,7 +1,28 @@
+import { signOut } from "firebase/auth";
 import React from "react";
 import { Link } from "react-router-dom";
+import { auth } from "../../../lib/firebase";
+import { setUser } from "../../../redux/features/user/UserSlice";
+import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 
 export default function Navbar() {
+  const { user } = useAppSelector((state) => state.user);
+
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    console.log("Logout");
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        dispatch(setUser(null));
+      })
+      .catch((error) => {
+        // Handle the error
+        console.log("Logout error:", error);
+      });
+  };
+
   const menuItems = (
     <React.Fragment>
       <li>
@@ -16,6 +37,48 @@ export default function Navbar() {
       <li>
         <Link to="/about">About</Link>
       </li>
+    </React.Fragment>
+  );
+
+  const navbarEnd = (
+    <React.Fragment>
+      {user?.email ? (
+        <>
+          <li className="lg:hidden">
+            <button>Sign out</button>
+          </li>
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="">
+              <div className="flex flex-col items-center justify-center">
+                <div className="flex space-x-5">
+                  <img
+                    alt=""
+                    className="w-12 h-12 rounded-full ri ri dark:bg-gray-500 ri ri"
+                    src="https://source.unsplash.com/40x40/?portrait?4"
+                  />
+                </div>
+              </div>
+            </label>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu p-2 shadow bg-base-100 w-32"
+            >
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+              <li>
+                <button onClick={handleLogout}>Sign out</button>
+              </li>
+            </ul>
+          </div>
+        </>
+      ) : (
+        <>
+          <li>
+            <Link to="/login">Sign in</Link>
+          </li>
+        </>
+      )}
     </React.Fragment>
   );
 
@@ -56,9 +119,7 @@ export default function Navbar() {
           <ul className="menu menu-horizontal px-1">{menuItems}</ul>
         </div>
         <div className="navbar-end mr-5">
-          {/* <ul>
-                {navbarEnd}
-            </ul> */}
+          <ul>{navbarEnd}</ul>
         </div>
       </div>
     </div>
