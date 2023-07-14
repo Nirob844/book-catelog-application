@@ -75,7 +75,12 @@ export default function Navbar() {
       ) : (
         <>
           <li>
-            <Link to="/login">Sign in</Link>
+            <Link className="mx-2" to="/login">
+              Sign in
+            </Link>
+            <Link className="mx-2" to="/signup">
+              Sign up
+            </Link>
           </li>
         </>
       )}
