@@ -1,11 +1,16 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { toast } from "react-hot-toast/headless";
+import { useCreateBookMutation } from "../../../redux/features/book/bookApi";
+import { useAppSelector } from "../../../redux/hook";
 
 interface IBookInfo {
+  id: string;
   title: string;
   author: string;
   genre: string;
@@ -15,7 +20,10 @@ interface IBookInfo {
 }
 
 const AddNewBook = () => {
+  const { user } = useAppSelector((state) => state.user);
+
   const [bookInfo, setBookInfo] = useState<IBookInfo>({
+    id: "",
     title: "",
     author: "",
     genre: "",
@@ -23,6 +31,8 @@ const AddNewBook = () => {
     image: "",
     summary: "",
   });
+
+  const [createBook] = useCreateBookMutation();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -50,17 +60,34 @@ const AddNewBook = () => {
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(bookInfo);
-    setBookInfo({
-      title: "",
-      author: "",
-      genre: "",
-      publicationDate: "",
-      image: "",
-      summary: "",
-    });
+
+    if (!user) {
+      // Check if the user is authenticated
+      toast.error("Please sign in to add a new book");
+      return;
+    }
+
+    try {
+      await createBook({
+        id: bookInfo.id, // Replace with the correct book ID
+        data: bookInfo,
+      });
+      toast.success("Book added successfully");
+      setBookInfo({
+        id: "",
+        title: "",
+        author: "",
+        genre: "",
+        publicationDate: "",
+        image: "",
+        summary: "",
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to add book");
+    }
   };
 
   return (

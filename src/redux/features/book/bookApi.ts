@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { api } from "../../api/apiSlice";
 
 const bookApi = api.injectEndpoints({
@@ -9,14 +11,13 @@ const bookApi = api.injectEndpoints({
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       query: (id) => `/book/${id}`,
     }),
-    //   qpostComment: builder.mutation({
-    //     uery: ({ id, data }) => ({
-    //       url: `/comment/${id}`,
-    //       method: 'POST',
-    //       body: data,
-    //     }),
-    //     invalidatesTags: ['comments'],
-    //   }),
+    createBook: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/book/${id}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     //   getComment: builder.query({
     //     query: (id) => `/comment/${id}`,
     //     providesTags: ['comments'],
@@ -24,4 +25,5 @@ const bookApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetBooksQuery, useSingleBookQuery } = bookApi;
+export const { useGetBooksQuery, useSingleBookQuery, useCreateBookMutation } =
+  bookApi;
