@@ -2,7 +2,9 @@
 import { useGetBooksQuery } from "../../../redux/features/book/bookApi";
 import { IBook } from "../../../types/globalTypes";
 import AllBook from "../AllBook/AllBook";
+import FilterBooks from "../FilterBooks/FilterBooks";
 import SearchBar from "../SearchBar/SearchBar";
+import "./Books.css";
 
 interface IProps {
   book: IBook;
@@ -20,12 +22,17 @@ export default function Books() {
 
   return (
     <div className="">
-      <SearchBar />
-      <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-        <div className="grid gap-6 row-gap-5 mb-8 lg:grid-cols-4 sm:row-gap-6 sm:grid-cols-2">
-          {bookData.map((book: IBook) => (
-            <AllBook key={book.title} book={book} />
-          ))}
+      <div className="book-container">
+        <div>
+          <FilterBooks />
+        </div>
+        <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-full md:px-24 lg:px-8 lg:py-20">
+          <SearchBar />
+          <div className="grid gap-12 row-gap-5 mb-8 lg:grid-cols-3 sm:row-gap-6 sm:grid-cols-2">
+            {bookData.map((book: IBook) => (
+              <AllBook key={book.title} book={book} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
