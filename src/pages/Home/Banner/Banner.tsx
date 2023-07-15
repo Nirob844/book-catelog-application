@@ -1,27 +1,38 @@
 export default function Banner() {
   return (
     <div>
-      <section className="dark:bg-gray-800 dark:text-gray-100">
-        <div className="container mx-auto flex flex-col items-center px-4 py-16 text-center md:py-32 md:px-10 lg:px-32 xl:max-w-3xl">
-          <h1 className="text-4xl font-bold leading-none sm:text-5xl">
-            Quisquam necessita vel
-            <span className="dark:text-violet-400">laborum doloribus</span>
-            delectus
-          </h1>
-          <p className="px-8 mt-8 mb-12 text-lg">
-            Cupiditate minima voluptate temporibus quia? Architecto beatae esse
-            ab amet vero eaque explicabo!
-          </p>
-          <div className="flex flex-wrap justify-center">
-            <button className="px-8 py-3 m-2 text-lg font-semibold rounded dark:bg-violet-400 dark:text-gray-900">
-              Get started
-            </button>
-            <button className="px-8 py-3 m-2 text-lg border rounded dark:text-gray-50 dark:border-gray-700">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex justify-between items-center h-[calc(100vh-80px)]">
+          <div>
+            <h1 className="text-6xl font-black text-white mb-2">
+              DISCOVER <br /> BOOKS WORLD
+            </h1>
+            <p className="text-white font-semibold text-xl">
+              Welcome to Book Catalog!
+            </p>
+            <div className="text-white mt-20">
+              <p>The Prophet Muhammad said</p>
+              <q>
+                Whoever teaches some knowledge will have the reward of the one{" "}
+                <br /> who acts upon it, without that detracting from his reward
+                in the slightest.
+              </q>
+            </div>
+            <button className="mt-5 border-2 border-[#2563EB] hover:bg-[#2563EB] hover:text-white font-[500] px-[12px] py-[4px] rounded-[8px]">
               Learn more
             </button>
           </div>
+          <div className="">
+            <img
+              height="600px"
+              width="600px"
+              className="rounded-[14px]"
+              src="https://cdn.pixabay.com/photo/2018/03/19/18/20/tea-time-3240766_1280.jpg"
+              alt=""
+            />
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

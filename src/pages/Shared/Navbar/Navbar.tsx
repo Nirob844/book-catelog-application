@@ -117,7 +117,7 @@ export default function Navbar() {
           </div>
           <Link to="/" className="btn btn-ghost normal-case text-xl text-white">
             {" "}
-            PhoneSwap{" "}
+            Book Catalog{" "}
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
