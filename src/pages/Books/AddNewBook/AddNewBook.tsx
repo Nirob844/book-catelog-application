@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -5,25 +6,28 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { toast } from "react-hot-toast/headless";
+import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import { useCreateBookMutation } from "../../../redux/features/book/bookApi";
 import { useAppSelector } from "../../../redux/hook";
 
 interface IBookInfo {
-  id: string;
+  email: string;
   title: string;
   author: string;
   genre: string;
   publicationDate: string;
   image: string;
   summary?: string;
+  customerReviews?: [];
 }
 
 const AddNewBook = () => {
+  const navigate = useNavigate();
+  const [isLoad, setIsLoad] = useState(false);
   const { user } = useAppSelector((state) => state.user);
-
   const [bookInfo, setBookInfo] = useState<IBookInfo>({
-    id: "",
+    email: "",
     title: "",
     author: "",
     genre: "",
@@ -62,21 +66,20 @@ const AddNewBook = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    if (!user) {
-      // Check if the user is authenticated
-      toast.error("Please sign in to add a new book");
-      return;
+    // Perform book submission logic here
+    if (user.email) {
+      bookInfo.email = user.email;
+      bookInfo.customerReviews = [];
     }
+    setIsLoad(true);
+    const response: any = await createBook(bookInfo);
+    console.log(response.data);
 
-    try {
-      await createBook({
-        id: bookInfo.id, // Replace with the correct book ID
-        data: bookInfo,
-      });
-      toast.success("Book added successfully");
+    if (response?.data) {
+      swal(response?.data?.message, "", "success");
+      // Reset the form fields
       setBookInfo({
-        id: "",
+        email: "",
         title: "",
         author: "",
         genre: "",
@@ -84,9 +87,11 @@ const AddNewBook = () => {
         image: "",
         summary: "",
       });
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to add book");
+      navigate("/books");
+      setIsLoad(false);
+    } else {
+      swal("Book Added Failed", "", "error");
+      setIsLoad(false);
     }
   };
 
@@ -196,12 +201,21 @@ const AddNewBook = () => {
             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
           ></textarea>
         </div>
-        <button
-          type="submit"
-          className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
-        >
-          Add Book
-        </button>
+        {isLoad ? (
+          <button
+            disabled
+            className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+          >
+            Loading...
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+          >
+            Add Book
+          </button>
+        )}
       </form>
     </div>
   );

@@ -4,6 +4,13 @@ import { api } from "../../api/apiSlice";
 
 const bookApi = api.injectEndpoints({
   endpoints: (builder) => ({
+    createBook: builder.mutation({
+      query: (data) => ({
+        url: "/book",
+        method: "POST",
+        body: data,
+      }),
+    }),
     getBooks: builder.query({
       query: ({ search, genre, publicationYear }) => ({
         url: "/books",
@@ -14,13 +21,6 @@ const bookApi = api.injectEndpoints({
     singleBook: builder.query({
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       query: (id) => `/book/${id}`,
-    }),
-    createBook: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `/book/${id}`,
-        method: "POST",
-        body: data,
-      }),
     }),
     deleteBook: builder.mutation({
       query: (id) => ({
