@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useParams } from "react-router-dom";
 import { useSingleBookQuery } from "../../../redux/features/book/bookApi";
@@ -57,6 +59,8 @@ export default function BookDetails() {
             <button className="my-3 btn btn-primary">Add To Cart</button>
             <button className="btn btn-secondary">wished</button>
           </div>
+          <button className=" btn btn-sm btn-active btn-ghost">Edit</button>
+          <button className="btn btn-sm btn-error">Delete</button>
         </div>
       </div>
     </div>

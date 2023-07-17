@@ -34,9 +34,6 @@ export default function Navbar() {
       <li>
         <Link to="/add-new-book">add new book</Link>
       </li>
-      <li>
-        <Link to="/about">About</Link>
-      </li>
     </React.Fragment>
   );
 

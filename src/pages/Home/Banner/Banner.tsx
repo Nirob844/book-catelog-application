@@ -3,7 +3,7 @@ export default function Banner() {
     <div>
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center h-[calc(100vh-80px)]">
-          <div>
+          <div className="w-1/2">
             <h1 className="text-6xl font-black text-white mb-2">
               DISCOVER <br /> BOOKS WORLD
             </h1>
@@ -22,7 +22,7 @@ export default function Banner() {
               Learn more
             </button>
           </div>
-          <div className="">
+          <div className="w-1/2">
             <img
               height="600px"
               width="600px"

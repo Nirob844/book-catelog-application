@@ -5,7 +5,11 @@ import { api } from "../../api/apiSlice";
 const bookApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getBooks: builder.query({
-      query: () => "/books",
+      query: ({ search, genre, publicationYear }) => ({
+        url: "/books",
+        params: { search, genre, publicationYear },
+        providesTags: ["addNewBook", "deleteBook"],
+      }),
     }),
     singleBook: builder.query({
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -18,12 +22,18 @@ const bookApi = api.injectEndpoints({
         body: data,
       }),
     }),
-    //   getComment: builder.query({
-    //     query: (id) => `/comment/${id}`,
-    //     providesTags: ['comments'],
-    //   }),
+    deleteBook: builder.mutation({
+      query: (id) => ({
+        url: `/books/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetBooksQuery, useSingleBookQuery, useCreateBookMutation } =
-  bookApi;
+export const {
+  useGetBooksQuery,
+  useSingleBookQuery,
+  useCreateBookMutation,
+  useDeleteBookMutation,
+} = bookApi;
