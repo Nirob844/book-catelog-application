@@ -51,7 +51,19 @@ export default function Books() {
         <div>
           {/* <FilterBooks /> */}
           <div className=" bg-gray-800 p-5">
-            <h1 className="text-2xl font-semibold">Filter all books</h1>
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-semibold">Filter all books</h1>
+              <button
+                onClick={() => {
+                  setSelectGenre("");
+                  setSelectPublicationYear("");
+                }}
+                className="btn btn-ghost"
+              >
+                reset
+              </button>
+            </div>
+
             {/* Filter options */}
             <div className="space-y-2">
               <div className=" p-2 rounded">
@@ -61,6 +73,7 @@ export default function Books() {
                     return (
                       <div key={i} className="flex items-center mb-[8px]">
                         <input
+                          onChange={() => setSelectGenre(genre)}
                           className="h-[18px] w-[18px]"
                           id={genre}
                           type="radio"
@@ -80,17 +93,19 @@ export default function Books() {
                     By Publication Year:
                   </h2>
                   <div className="mt-2">
-                    {publicationYears?.map((genre, i) => {
+                    {publicationYears?.map((year, i) => {
                       return (
                         <div key={i} className="flex items-center mb-[8px]">
                           <input
+                            onChange={() => setSelectPublicationYear(year)}
                             className="h-[18px] w-[18px]"
-                            id={genre}
+                            id={year}
                             type="radio"
-                            name="genre"
+                            name="year"
+                            checked={selectpublicationYear === year}
                           />
-                          <label className="text-[14px] ml-3" htmlFor={genre}>
-                            {genre}
+                          <label className="text-[14px] ml-3" htmlFor={year}>
+                            {year}
                           </label>
                         </div>
                       );
