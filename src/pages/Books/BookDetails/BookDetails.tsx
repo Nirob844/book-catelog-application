@@ -1,8 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { useParams } from "react-router-dom";
-import { useSingleBookQuery } from "../../../redux/features/book/bookApi";
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import swal from "sweetalert";
+import {
+  useDeleteBookMutation,
+  useSingleBookQuery,
+} from "../../../redux/features/book/bookApi";
 
 interface Review {
   rating: number;
@@ -11,16 +22,44 @@ interface Review {
 
 export default function BookDetails() {
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const { data, isLoading } = useSingleBookQuery(id);
+  const [deleteBook] = useDeleteBookMutation();
+  const [isDeleteLoad, setDeleteLoad] = useState(false);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  const { image, title, author, publicationDate, price, reviews } = data;
-
+  const bookData = data?.book;
+  const { image, title, author, publicationDate, price, reviews } = bookData;
   const bookReviews: Review[] = reviews; // Update the type to Review[]
+
+  const handleDeleteBook = () => {
+    swal({
+      title: "Are you sure?",
+      icon: "warning",
+      buttons: ["Cancel", "Yes"],
+      dangerMode: false,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        console.log(id);
+
+        if (id) {
+          setDeleteLoad(true);
+          const response: any = await deleteBook(id);
+          if (response?.data) {
+            swal(response?.data?.message, "", "success");
+            navigate("/books");
+            setDeleteLoad(false);
+          } else {
+            swal("Book delete operation failed!", "", "error");
+            setDeleteLoad(false);
+          }
+        }
+      }
+    });
+  };
 
   return (
     <div className="w-3/5 h-2/4 mx-auto">
@@ -60,7 +99,9 @@ export default function BookDetails() {
             <button className="btn btn-secondary">wished</button>
           </div>
           <button className=" btn btn-sm btn-active btn-ghost">Edit</button>
-          <button className="btn btn-sm btn-error">Delete</button>
+          <button onClick={handleDeleteBook} className="btn btn-sm btn-error">
+            Delete
+          </button>
         </div>
       </div>
     </div>
