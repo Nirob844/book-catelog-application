@@ -32,9 +32,11 @@ export default function Navbar() {
       <li>
         <Link to="/books">Books</Link>
       </li>
-      <li>
-        <Link to="/add-new-book">add new book</Link>
-      </li>
+      {user?.email && (
+        <li>
+          <Link to="/add-new-book">Add New Book</Link>
+        </li>
+      )}
     </React.Fragment>
   );
 
@@ -63,6 +65,15 @@ export default function Navbar() {
             >
               <li>
                 <Link to="/dashboard">Dashboard</Link>
+              </li>
+              <li>
+                <Link to="/wish-list">Wish List</Link>
+              </li>
+              <li>
+                <Link to="/reading">Reading</Link>
+              </li>
+              <li>
+                <Link to="/finished">Finished</Link>
               </li>
               <li>
                 <button onClick={handleLogout}>Sign out</button>
