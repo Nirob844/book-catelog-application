@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { createUser } from "../../../redux/features/user/UserSlice";
+import { Link, useNavigate } from "react-router-dom";
+import swal from "sweetalert";
+import { setLoading } from "../../../redux/features/user/UserSlice";
+import { useSignUpMutation } from "../../../redux/features/user/userApi";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 
 type Inputs = {
@@ -12,8 +18,6 @@ type Inputs = {
 };
 
 export default function SignUp() {
-  const dispatch = useAppDispatch();
-  const isLoading = useAppSelector((state) => state.user.isLoading);
   const {
     register,
     handleSubmit,
@@ -21,8 +25,32 @@ export default function SignUp() {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const { isLoading } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  const [signUpMutation] = useSignUpMutation();
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await dispatch(createUser({ email: data.email, password: data.password }));
+    try {
+      dispatch(setLoading(true));
+      const newUser = {
+        email: data.email,
+        password: data.password,
+      };
+      const response: any = await signUpMutation(newUser);
+      if (response.data) {
+        void swal(response?.data?.message, "", "success");
+        navigate("/login");
+      } else {
+        swal(response?.error?.data?.message, "", "error");
+      }
+      dispatch(setLoading(false));
+    } catch (error: any) {
+      console.error("Sign-up failed:", error);
+      dispatch(setLoading(false));
+    }
   };
 
   console.log(watch("example"));

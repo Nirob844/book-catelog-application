@@ -46,7 +46,7 @@ export default function BookDetails() {
         console.log(id);
 
         if (id) {
-          setDeleteLoad(true);
+          //setDeleteLoad(true);
           const response: any = await deleteBook(id);
           if (response?.data) {
             swal(response?.data?.message, "", "success");
@@ -86,7 +86,7 @@ export default function BookDetails() {
             <p className="inline-flex items-center font-semibold transition-colors duration-200 text-blue-400 hover:text-deep-purple-800">
               Price: {price}
             </p>
-            <div>
+            {/* <div>
               <h6 className="mb-2 mt-6 text-xl font-semibold">Reviews:</h6>
               {bookReviews.map((review, index) => (
                 <div key={index} className="mb-2">
@@ -94,7 +94,7 @@ export default function BookDetails() {
                   <p className="text-white">Comment: {review.comment}</p>
                 </div>
               ))}
-            </div>
+            </div> */}
             <button className="my-3 btn btn-primary">Add To Cart</button>
             <button className="btn btn-secondary">wished</button>
           </div>

@@ -10,6 +10,7 @@ const bookApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["addNewBook"],
     }),
     getBooks: builder.query({
       query: ({ search, genre, publicationYear }) => ({
@@ -21,12 +22,14 @@ const bookApi = api.injectEndpoints({
     singleBook: builder.query({
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       query: (id) => `/book/${id}`,
+      providesTags: ["bookDetails", "bookReview"],
     }),
     deleteBook: builder.mutation({
       query: (id) => ({
         url: `/book/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["deleteBook"],
     }),
   }),
 });
