@@ -100,24 +100,27 @@ export default function BookDetails() {
             <p className="inline-flex items-center font-semibold transition-colors duration-200 text-blue-400 hover:text-deep-purple-800">
               Price: {price}
             </p>
-            {/* <div>
-              <h6 className="mb-2 mt-6 text-xl font-semibold">Reviews:</h6>
-              {bookReviews.map((review, index) => (
-                <div key={index} className="mb-2">
-                  <p className="text-white">Rating: {review.rating} / 5</p>
-                  <p className="text-white">Comment: {review.comment}</p>
-                </div>
-              ))}
-            </div> */}
-
             <button onClick={handleWishList} className="my-3 btn btn-secondary">
               wished
             </button>
           </div>
           <button className=" btn btn-sm btn-active btn-ghost">Edit</button>
-          <button onClick={handleDeleteBook} className="btn btn-sm btn-error">
+          <button
+            onClick={handleDeleteBook}
+            className="ml-2 btn btn-sm btn-error"
+          >
             Delete
           </button>
+        </div>
+        <div className="mt-5">
+          <h1 className="text-4xl">Comment:</h1>
+          <div className="flex items-center my-5">
+            <input
+              className="border p-2 mr-2 flex-grow"
+              type="text"
+              placeholder="comment"
+            />
+          </div>
         </div>
       </div>
     </div>
