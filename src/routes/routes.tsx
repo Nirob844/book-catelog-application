@@ -4,6 +4,7 @@ import About from "../pages/About/About";
 import AddNewBook from "../pages/Books/AddNewBook/AddNewBook";
 import BookDetails from "../pages/Books/BookDetails/BookDetails";
 import Books from "../pages/Books/Books/Books";
+import Wishlist from "../pages/Books/WishList/Wishlist";
 import Home from "../pages/Home/Home/Home";
 import Login from "../pages/Register/Login/Login";
 import SignUp from "../pages/Register/SignUp/SignUp";
@@ -31,6 +32,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddNewBook />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/wish-list",
+        element: (
+          <PrivateRoute>
+            <Wishlist />
           </PrivateRoute>
         ),
       },

@@ -8,12 +8,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
 import {
   useDeleteBookMutation,
   useSingleBookQuery,
 } from "../../../redux/features/book/bookApi";
+import { addToWishList } from "../../../redux/features/wishList/wishListSlice";
+import { useAppDispatch } from "../../../redux/hook";
 
 interface Review {
   rating: number;
@@ -26,6 +29,7 @@ export default function BookDetails() {
   const { data, isLoading } = useSingleBookQuery(id);
   const [deleteBook] = useDeleteBookMutation();
   const [isDeleteLoad, setDeleteLoad] = useState(false);
+  const dispatch = useAppDispatch();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -34,6 +38,16 @@ export default function BookDetails() {
   const bookData = data?.book;
   const { image, title, author, publicationDate, price, reviews } = bookData;
   const bookReviews: Review[] = reviews; // Update the type to Review[]
+
+  const handleWishList = () => {
+    dispatch(addToWishList(bookData));
+    // const updatedData = {
+    //   email: user?.email,
+    //   wishList: book?._id,
+    // };
+    // updateUserMutation(updatedData);
+    toast.success("Book is added in Wishlist");
+  };
 
   const handleDeleteBook = () => {
     swal({
@@ -95,8 +109,10 @@ export default function BookDetails() {
                 </div>
               ))}
             </div> */}
-            <button className="my-3 btn btn-primary">Add To Cart</button>
-            <button className="btn btn-secondary">wished</button>
+
+            <button onClick={handleWishList} className="my-3 btn btn-secondary">
+              wished
+            </button>
           </div>
           <button className=" btn btn-sm btn-active btn-ghost">Edit</button>
           <button onClick={handleDeleteBook} className="btn btn-sm btn-error">
