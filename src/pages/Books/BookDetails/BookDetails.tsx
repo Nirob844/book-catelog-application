@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -9,7 +10,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
 import {
   useDeleteBookMutation,
@@ -18,6 +19,18 @@ import {
 import { addToWishList } from "../../../redux/features/wishList/wishListSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 
+interface IBook {
+  _id: string;
+  email: string;
+  title: string;
+  author: string;
+  genre: string;
+  publicationDate: string;
+  image: string;
+  summary: string;
+  customerReviews: [];
+}
+
 interface Review {
   rating: number;
   comment: string;
@@ -25,6 +38,7 @@ interface Review {
 
 export default function BookDetails() {
   const { id } = useParams();
+
   const navigate = useNavigate();
   const { data, isLoading } = useSingleBookQuery(id);
   const [deleteBook] = useDeleteBookMutation();
@@ -49,7 +63,14 @@ export default function BookDetails() {
     // updateUserMutation(updatedData);
     toast.success("Book is added in Wishlist");
   };
-
+  // Update book
+  // useEffect(() => {
+  //   if (bookData) {
+  //     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  //     setBook(bookData);
+  //   }
+  // }, [bookData, id]);
+  //delete book
   const handleDeleteBook = () => {
     swal({
       title: "Are you sure?",
@@ -64,12 +85,10 @@ export default function BookDetails() {
           //setDeleteLoad(true);
           const response: any = await deleteBook(id);
           if (response?.data) {
-            swal(response?.data?.message, "", "success");
+            toast.success("delete successful");
             navigate("/books");
-            setDeleteLoad(false);
           } else {
-            swal("Book delete operation failed!", "", "error");
-            setDeleteLoad(false);
+            toast.error("Book delete operation failed!");
           }
         }
       }
@@ -107,7 +126,9 @@ export default function BookDetails() {
           </div>
           {user.email && (
             <>
-              <button className=" btn btn-sm btn-active btn-ghost">Edit</button>
+              <Link to={`/edit-book/${bookData?._id}`}>
+                <button className="btn btn-sm btn-ghost">Edit</button>
+              </Link>
               <button
                 onClick={handleDeleteBook}
                 className="ml-2 btn btn-sm btn-error"

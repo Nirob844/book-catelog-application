@@ -1,8 +1,14 @@
+import Cookies from "js-cookie";
+import jwt_decode, { JwtPayload } from "jwt-decode";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import Main from "./layout/Main";
 import { setUser } from "./redux/features/user/UserSlice";
-import { useAppDispatch, useAppSelector } from "./redux/hook";
+import { useAppDispatch } from "./redux/hook";
+
+interface DecodedToken extends JwtPayload {
+  email: string;
+}
 
 function App() {
   // const dispatch = useAppDispatch();
@@ -20,23 +26,27 @@ function App() {
   //   });
   // }, [dispatch]);
 
-  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  // Authenticate user info extract function
-  const userState = () => {
-    if (user.email) {
+  const token: string | undefined = Cookies.get("token");
+
+  const verifyUserToken = () => {
+    if (token) {
       try {
-        dispatch(setUser(user.email));
+        const decodedToken: DecodedToken = jwt_decode(token);
+        if (decodedToken && decodedToken?.email) {
+          dispatch(setUser(decodedToken?.email));
+        }
       } catch (error) {
         console.error("Error decoding JWT token:", error);
       }
     }
   };
+
   useEffect(() => {
-    userState();
+    verifyUserToken();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.email]);
+  }, [token]);
 
   return (
     <>

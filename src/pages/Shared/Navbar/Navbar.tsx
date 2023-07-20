@@ -64,7 +64,7 @@ export default function Navbar() {
               className="dropdown-content menu p-2 shadow bg-base-100 w-32"
             >
               <li>
-                <Link to="/dashboard">Dashboard</Link>
+                <Link to="/">Dashboard</Link>
               </li>
               <li>
                 <Link to="/wish-list">Wish List</Link>

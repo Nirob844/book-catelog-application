@@ -52,6 +52,9 @@ export default function AllBook({ book }: IProps) {
                 <p className="mb-2 text-sm text-slate-500 font-semibold">
                   Genre: {genre}
                 </p>
+                <p className="mb-2 text-sm text-slate-500 font-semibold">
+                  Publication Date : {publicationDate}
+                </p>
               </div>
             </div>
           </div>

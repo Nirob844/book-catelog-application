@@ -4,6 +4,7 @@ import About from "../pages/About/About";
 import AddNewBook from "../pages/Books/AddNewBook/AddNewBook";
 import BookDetails from "../pages/Books/BookDetails/BookDetails";
 import Books from "../pages/Books/Books/Books";
+import EditBook from "../pages/Books/EditBook/EditBook";
 import FinishedBook from "../pages/Books/FinishedBook/FinishedBook";
 import ReadingBook from "../pages/Books/ReadingBook/ReadingBook";
 import Wishlist from "../pages/Books/WishList/Wishlist";
@@ -34,6 +35,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddNewBook />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/edit-book/:id",
+        element: (
+          <PrivateRoute>
+            <EditBook />
           </PrivateRoute>
         ),
       },
