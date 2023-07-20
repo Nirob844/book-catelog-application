@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 
 export default function Navbar() {
   const { user } = useAppSelector((state) => state.user);
-  console.log(user);
 
   const dispatch = useAppDispatch();
 

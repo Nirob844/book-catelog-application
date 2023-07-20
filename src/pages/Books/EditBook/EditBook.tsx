@@ -90,7 +90,7 @@ const EditBook: React.FC = () => {
     if (response?.data) {
       toast.success("update successful");
       if (id) {
-        navigate(`/details/${id}`);
+        navigate("/books");
       }
       setIsLoading(false);
     } else {
@@ -197,17 +197,11 @@ const EditBook: React.FC = () => {
           ></textarea>
         </div>
         {isLoading ? (
-          <button
-            disabled
-            className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
-          >
+          <button disabled className="btn btn-primary">
             Loading...
           </button>
         ) : (
-          <button
-            type="submit"
-            className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
-          >
+          <button type="submit" className="btn btn-primary">
             Update Book
           </button>
         )}

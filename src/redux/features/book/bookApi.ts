@@ -12,11 +12,25 @@ const bookApi = api.injectEndpoints({
       }),
       invalidatesTags: ["addNewBook"],
     }),
+    bookReview: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/comment/${id}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["bookReview"],
+    }),
     getBooks: builder.query({
       query: ({ search, genre, publicationYear }) => ({
         url: "/books",
         params: { search, genre, publicationYear },
         providesTags: ["addNewBook", "deleteBook"],
+      }),
+    }),
+    getRecentBooks: builder.query({
+      query: () => ({
+        url: "/book/recent-published",
+        providesTags: ["addNewBook"],
       }),
     }),
     singleBook: builder.query({
@@ -44,6 +58,8 @@ const bookApi = api.injectEndpoints({
 
 export const {
   useGetBooksQuery,
+  useGetRecentBooksQuery,
+  useBookReviewMutation,
   useSingleBookQuery,
   useCreateBookMutation,
   useUpdateBookMutation,

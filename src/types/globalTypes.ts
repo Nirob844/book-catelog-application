@@ -5,11 +5,6 @@ export interface IBook {
   genre: string;
   price: number;
   publicationDate: string;
-  reviews: Review[];
+  customerReviews?: [];
   image: string;
-}
-
-interface Review {
-  rating: number;
-  comment: string;
 }

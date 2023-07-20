@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -8,69 +9,43 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { useState } from "react";
+import { Key, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
 import {
+  useBookReviewMutation,
   useDeleteBookMutation,
   useSingleBookQuery,
 } from "../../../redux/features/book/bookApi";
 import { addToWishList } from "../../../redux/features/wishList/wishListSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 
-interface IBook {
-  _id: string;
-  email: string;
-  title: string;
-  author: string;
-  genre: string;
-  publicationDate: string;
-  image: string;
-  summary: string;
-  customerReviews: [];
-}
-
-interface Review {
-  rating: number;
-  comment: string;
-}
-
 export default function BookDetails() {
   const { id } = useParams();
-
   const navigate = useNavigate();
   const { data, isLoading } = useSingleBookQuery(id);
   const [deleteBook] = useDeleteBookMutation();
-  const [isDeleteLoad, setDeleteLoad] = useState(false);
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const [reviewComment, setReviewComment] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // Hook to add a review
+  const [addReview] = useBookReviewMutation();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   const bookData = data?.book;
-  const { image, title, author, publicationDate, price, reviews } = bookData;
-  const bookReviews: Review[] = reviews; // Update the type to Review[]
+  const { image, title, author, publicationDate, price } = bookData;
 
   const handleWishList = () => {
     dispatch(addToWishList(bookData));
-    // const updatedData = {
-    //   email: user?.email,
-    //   wishList: book?._id,
-    // };
-    // updateUserMutation(updatedData);
     toast.success("Book is added in Wishlist");
   };
-  // Update book
-  // useEffect(() => {
-  //   if (bookData) {
-  //     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  //     setBook(bookData);
-  //   }
-  // }, [bookData, id]);
-  //delete book
+
   const handleDeleteBook = () => {
     swal({
       title: "Are you sure?",
@@ -93,6 +68,21 @@ export default function BookDetails() {
         }
       }
     });
+  };
+  //review
+  const handleAddReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    const response: any = await addReview({
+      id: id,
+      data: { email: user.email, comment: reviewComment },
+    });
+    if (response?.data) {
+      setReviewComment("");
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
   };
 
   return (
@@ -124,7 +114,7 @@ export default function BookDetails() {
               wished
             </button>
           </div>
-          {user.email && (
+          {user.email == bookData.email && (
             <>
               <Link to={`/edit-book/${bookData?._id}`}>
                 <button className="btn btn-sm btn-ghost">Edit</button>
@@ -139,13 +129,58 @@ export default function BookDetails() {
           )}
         </div>
         <div className="mt-5">
-          <h1 className="text-4xl">Comment:</h1>
-          <div className="flex items-center my-5">
-            <input
-              className="border p-2 mr-2 flex-grow"
-              type="text"
-              placeholder="comment"
-            />
+          {user.email && (
+            <form onSubmit={handleAddReview}>
+              <label htmlFor="review" className="text-lg font-[500] my-3">
+                Write Review
+              </label>
+              <textarea
+                id="review"
+                value={reviewComment}
+                onChange={(e) => setReviewComment(e.target.value)}
+                className="w-full h-32 p-2 mb-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
+                placeholder="Write your review here..."
+                required
+              ></textarea>
+              {loading ? (
+                <button
+                  disabled
+                  className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+                >
+                  Loading...
+                </button>
+              ) : (
+                <button type="submit" className="btn btn-primary">
+                  Submit Review
+                </button>
+              )}
+            </form>
+          )}
+          <div className="mb-4">
+            {bookData?.customerReviews?.length > 0 ? ( // Add optional chaining here
+              <ul className="space-y-4">
+                {bookData?.customerReviews?.map(
+                  (
+                    review: { email: string; comment: string },
+                    index: Key | null | undefined
+                  ) => (
+                    <li key={index} className="flex items-start mt-4">
+                      <img
+                        className="h-8 w-8 rounded-full"
+                        src="https://source.unsplash.com/40x40/?portrait?4"
+                        alt="User Profile"
+                      />
+                      <div className="ml-4">
+                        <p className="font-[600]">{review.email}</p>
+                        <p className="py-2 rounded">{review.comment}</p>
+                      </div>
+                    </li>
+                  )
+                )}
+              </ul>
+            ) : (
+              <p>No reviews yet.</p>
+            )}
           </div>
         </div>
       </div>
