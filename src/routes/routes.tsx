@@ -4,6 +4,7 @@ import About from "../pages/About/About";
 import AddNewBook from "../pages/Books/AddNewBook/AddNewBook";
 import BookDetails from "../pages/Books/BookDetails/BookDetails";
 import Books from "../pages/Books/Books/Books";
+import FinishedBook from "../pages/Books/FinishedBook/FinishedBook";
 import ReadingBook from "../pages/Books/ReadingBook/ReadingBook";
 import Wishlist from "../pages/Books/WishList/Wishlist";
 import Home from "../pages/Home/Home/Home";
@@ -49,6 +50,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ReadingBook />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/finished",
+        element: (
+          <PrivateRoute>
+            <FinishedBook />
           </PrivateRoute>
         ),
       },

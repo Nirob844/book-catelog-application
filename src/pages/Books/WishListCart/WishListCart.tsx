@@ -2,6 +2,10 @@ import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
+  addToFinished,
+  removeFromFinished,
+} from "../../../redux/features/finished/finishedSlice";
+import {
   addToReading,
   removeFromReading,
 } from "../../../redux/features/reading/readingSlice";
@@ -30,7 +34,7 @@ const WishListCart: React.FC<WishListCartProps> = ({ book, payload }) => {
     }
     if (payload === "Make Finished") {
       dispatch(removeFromReading(book));
-      // dispatch(addToFinished(book));
+      dispatch(addToFinished(book));
       //   const updatedData = {
       //     email: user?.email,
       //     finished: [book?._id],
@@ -38,10 +42,10 @@ const WishListCart: React.FC<WishListCartProps> = ({ book, payload }) => {
       //   updateUserMutation(updatedData);
       toast.success("Book is added in Finished");
     }
-    //     if (payload === "Remove") {
-    //       dispatch(removeFromFinished(book));
-    //       toast.success("Remove is successfull.");
-    //     }
+    if (payload === "Remove") {
+      dispatch(removeFromFinished(book));
+      toast.success("Remove is successfull.");
+    }
   };
 
   return (
