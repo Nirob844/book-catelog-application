@@ -1,4 +1,11 @@
+import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  addToReading,
+  removeFromReading,
+} from "../../../redux/features/reading/readingSlice";
+import { removeFromWishList } from "../../../redux/features/wishList/wishListSlice";
 import { IBook } from "../../../types/globalTypes";
 
 interface WishListCartProps {
@@ -8,6 +15,35 @@ interface WishListCartProps {
 
 const WishListCart: React.FC<WishListCartProps> = ({ book, payload }) => {
   const { title, author, genre, image } = book;
+  const dispatch = useDispatch();
+
+  const handleBookSlice = () => {
+    if (payload === "Make Reading") {
+      dispatch(removeFromWishList(book));
+      dispatch(addToReading(book));
+      //   const updatedData = {
+      //     email: user?.email,
+      //     reading: [book?._id],
+      //   };
+      //   updateUserMutation(updatedData);
+      toast.success("Book is added in Reading");
+    }
+    if (payload === "Make Finished") {
+      dispatch(removeFromReading(book));
+      // dispatch(addToFinished(book));
+      //   const updatedData = {
+      //     email: user?.email,
+      //     finished: [book?._id],
+      //   };
+      //   updateUserMutation(updatedData);
+      toast.success("Book is added in Finished");
+    }
+    //     if (payload === "Remove") {
+    //       dispatch(removeFromFinished(book));
+    //       toast.success("Remove is successfull.");
+    //     }
+  };
+
   return (
     <div className="rounded-lg border">
       <div>
@@ -26,7 +62,9 @@ const WishListCart: React.FC<WishListCartProps> = ({ book, payload }) => {
             Genre: {genre}
           </p>
         </div>
-        <div className="btn btn-accent w-full">{payload}</div>
+        <div onClick={handleBookSlice} className="btn btn-accent w-full">
+          {payload}
+        </div>
       </div>
     </div>
   );

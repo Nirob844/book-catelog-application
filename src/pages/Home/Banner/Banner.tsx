@@ -11,12 +11,18 @@ export default function Banner() {
               Welcome to Book Catalog!
             </p>
             <div className="text-white mt-20">
-              <p>The Prophet Muhammad said</p>
-              <q>
-                Whoever teaches some knowledge will have the reward of the one{" "}
-                <br /> who acts upon it, without that detracting from his reward
-                in the slightest.
-              </q>
+              <p>
+                The Transformative Power of Reading: A Journey Through the World
+                of Books
+              </p>
+              <p>
+                We read books to gain knowledge, expand our imagination, and
+                experience new perspectives.
+                <br />
+                reading books enriches our lives by broadening our horizons,
+                expanding our knowledge, and nurturing our intellectual and
+                emotional well-being.
+              </p>
             </div>
             <button className="mt-5 border-2 border-[#2563EB] hover:bg-[#2563EB] hover:text-white font-[500] px-[12px] py-[4px] rounded-[8px]">
               Learn more

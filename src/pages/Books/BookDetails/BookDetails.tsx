@@ -16,7 +16,7 @@ import {
   useSingleBookQuery,
 } from "../../../redux/features/book/bookApi";
 import { addToWishList } from "../../../redux/features/wishList/wishListSlice";
-import { useAppDispatch } from "../../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 
 interface Review {
   rating: number;
@@ -29,6 +29,7 @@ export default function BookDetails() {
   const { data, isLoading } = useSingleBookQuery(id);
   const [deleteBook] = useDeleteBookMutation();
   const [isDeleteLoad, setDeleteLoad] = useState(false);
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   if (isLoading) {
@@ -104,13 +105,17 @@ export default function BookDetails() {
               wished
             </button>
           </div>
-          <button className=" btn btn-sm btn-active btn-ghost">Edit</button>
-          <button
-            onClick={handleDeleteBook}
-            className="ml-2 btn btn-sm btn-error"
-          >
-            Delete
-          </button>
+          {user.email && (
+            <>
+              <button className=" btn btn-sm btn-active btn-ghost">Edit</button>
+              <button
+                onClick={handleDeleteBook}
+                className="ml-2 btn btn-sm btn-error"
+              >
+                Delete
+              </button>
+            </>
+          )}
         </div>
         <div className="mt-5">
           <h1 className="text-4xl">Comment:</h1>
