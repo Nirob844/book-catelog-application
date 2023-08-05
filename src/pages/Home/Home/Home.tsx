@@ -1,3 +1,4 @@
+import Author from "../Author/Author";
 import Banner from "../Banner/Banner";
 import RecentBooks from "../RecentBooks/RecentBooks";
 
@@ -6,6 +7,7 @@ function Home() {
     <div>
       <Banner />
       <RecentBooks />
+      <Author />
     </div>
   );
 }

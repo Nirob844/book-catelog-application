@@ -49,7 +49,7 @@ const WishListCart: React.FC<WishListCartProps> = ({ book, payload }) => {
   };
 
   return (
-    <div className="rounded-lg border">
+    <div className="rounded-lg border w-[280px]">
       <div>
         <Link to={`/book-details/${book?._id}`}>
           {" "}

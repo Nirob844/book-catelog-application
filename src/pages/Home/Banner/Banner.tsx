@@ -4,13 +4,11 @@ export default function Banner() {
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center h-[calc(100vh-80px)]">
           <div className="w-1/2">
-            <h1 className="text-6xl font-black text-white mb-2">
+            <h1 className="text-6xl font-black  mb-2">
               DISCOVER <br /> BOOKS WORLD
             </h1>
-            <p className="text-white font-semibold text-xl">
-              Welcome to Book Catalog!
-            </p>
-            <div className="text-white mt-20">
+            <p className=" font-semibold text-xl">Welcome to Book Catalog!</p>
+            <div className=" mt-20">
               <p>
                 The Transformative Power of Reading: A Journey Through the World
                 of Books

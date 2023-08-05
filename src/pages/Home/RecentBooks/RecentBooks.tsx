@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useGetRecentBooksQuery } from "../../../redux/features/book/bookApi";
 import { IBook } from "../../../types/globalTypes";
@@ -8,7 +9,10 @@ const RecentBooks = () => {
   console.log(data);
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  const bookData: IBook[] = data?.book || []; // Assign a default empty array if data is undefined
+  const bookData: IBook[] = data?.book || [];
+  console.log(bookData);
+
+  // Assign a default empty array if data is undefined
 
   if (isLoading) {
     return <div>Loading...</div>; // Placeholder or loading indicator while data is being fetched

@@ -1,12 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useState } from "react";
 import { useGetBooksQuery } from "../../../redux/features/book/bookApi";
-import { IBook } from "../../../types/globalTypes";
 import AllBook from "../AllBook/AllBook";
 import "./Books.css";
 
-interface IProps {
-  book: IBook;
+interface IBook {
+  _id: number;
+  title: string;
+  author: string;
+  genre: string;
+  price: number;
+  publicationDate: string;
+  customerReviews?: [];
+  image: string;
 }
 
 export default function Books() {
@@ -50,9 +56,9 @@ export default function Books() {
       <div className="book-container">
         <div>
           {/* <FilterBooks /> */}
-          <div className=" bg-gray-800 p-5">
+          <div className="shadow-xl rounded-xl  p-5">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-semibold">Filter all books</h1>
+              <h1 className=" text-2xl font-semibold">Filter all books</h1>
               <button
                 onClick={() => {
                   setSelectGenre("");

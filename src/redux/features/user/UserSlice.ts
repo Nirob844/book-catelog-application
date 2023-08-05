@@ -10,11 +10,6 @@ interface IUserState {
   error: string | null;
 }
 
-interface ICredential {
-  email: string;
-  password: string;
-}
-
 const initialState: IUserState = {
   user: {
     email: null,

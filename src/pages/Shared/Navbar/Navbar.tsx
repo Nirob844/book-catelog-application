@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { signOut } from "firebase/auth";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -31,11 +32,11 @@ export default function Navbar() {
       <li>
         <Link to="/books">Books</Link>
       </li>
-      {user?.email && (
+      {/* {user?.email && (
         <li>
           <Link to="/add-new-book">Add New Book</Link>
         </li>
-      )}
+      )} */}
     </React.Fragment>
   );
 
@@ -60,10 +61,10 @@ export default function Navbar() {
             </label>
             <ul
               tabIndex={0}
-              className="dropdown-content menu p-2 shadow bg-base-100 w-32"
+              className="dropdown-content menu p-2 text-black shadow w-32"
             >
               <li>
-                <Link to="/">Dashboard</Link>
+                <Link to="/add-new-book">Add New Book</Link>
               </li>
               <li>
                 <Link to="/wish-list">Wish List</Link>
@@ -97,7 +98,7 @@ export default function Navbar() {
 
   return (
     <div>
-      <div className="navbar bg-gray-900 shadow-2xl">
+      <div className="navbar bg-gray-900 shadow-2xl text-white">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -118,7 +119,7 @@ export default function Navbar() {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-compact dropdown-content mt-3 p-2 shadow  rounded-box w-52"
             >
               {menuItems}
             </ul>
@@ -129,9 +130,13 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{menuItems}</ul>
+          <ul className="flex px-5">
+            {React.Children.map(menuItems.props.children, (child, index) => (
+              <li className={index === 1 ? "ml-4" : ""}>{child}</li>
+            ))}
+          </ul>
         </div>
-        <div className="navbar-end mr-5">
+        <div className="navbar-end  mr-5">
           <ul>{navbarEnd}</ul>
         </div>
       </div>

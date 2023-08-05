@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useAppSelector } from "../../../redux/hook";
+import ReadingBook from "../ReadingBook/ReadingBook";
 import WishListCart from "../WishListCart/WishListCart";
 
 const Wishlist = () => {
@@ -23,6 +24,11 @@ const Wishlist = () => {
                 ></WishListCart>
               ))}
             </div>
+            <br />
+            <hr />
+            <hr />
+            <hr />
+            <ReadingBook></ReadingBook>
           </div>
         </div>
       </div>

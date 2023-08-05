@@ -1,4 +1,5 @@
 import { useAppSelector } from "../../../redux/hook";
+import FinishedBook from "../FinishedBook/FinishedBook";
 import WishListCart from "../WishListCart/WishListCart";
 
 const ReadingBook = () => {
@@ -22,6 +23,11 @@ const ReadingBook = () => {
                 ></WishListCart>
               ))}
             </div>
+            <br />
+            <hr />
+            <hr />
+            <hr />
+            <FinishedBook></FinishedBook>
           </div>
         </div>
       </div>

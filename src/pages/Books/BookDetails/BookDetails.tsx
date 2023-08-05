@@ -20,6 +20,7 @@ import {
 } from "../../../redux/features/book/bookApi";
 import { addToWishList } from "../../../redux/features/wishList/wishListSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
+import RecentBooks from "../../Home/RecentBooks/RecentBooks";
 
 export default function BookDetails() {
   const { id } = useParams();
@@ -39,6 +40,7 @@ export default function BookDetails() {
   }
 
   const bookData = data?.book;
+  console.log(bookData);
   const { image, title, author, publicationDate, price } = bookData;
 
   const handleWishList = () => {
@@ -86,104 +88,107 @@ export default function BookDetails() {
   };
 
   return (
-    <div className="w-3/5 h-2/4 mx-auto">
-      <div className="px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-        <div className="flex flex-col max-w-screen-lg overflow-hidden bg-gray-800 border rounded shadow-sm lg:flex-row sm:mx-auto">
-          <div className="lg:w-1/2">
-            <img
-              src={image}
-              alt=""
-              className="object-cover w-full h-80 lg:h-full"
-            />
-          </div>
-          <div className="flex flex-col justify-center p-8 bg-gray-800 lg:p-16 lg:pl-10 lg:w-1/2">
-            <div>
-              <p className="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-400">
-                Brand new
-              </p>
+    <div>
+      <div className="w-[80%] h-2/4 mx-auto">
+        <div className="px-4 py-10 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+          <div className="flex flex-col max-w-screen-lg overflow-hidden  border rounded shadow-sm lg:flex-row sm:mx-auto">
+            <div className="">
+              <img src={image} alt="" className=" w-[300px] h-[400px]" />
             </div>
-            <h5 className="mb-3 text-3xl font-extrabold leading-none sm:text-4xl">
-              {title}
-            </h5>
-            <p className="mb-5 text-white">Authors: {author}</p>
-            <p className="mb-5 text-white">Publisher: {publicationDate}</p>
-            <p className="inline-flex items-center font-semibold transition-colors duration-200 text-blue-400 hover:text-deep-purple-800">
-              Price: {price}
-            </p>
-            <button onClick={handleWishList} className="my-3 btn btn-secondary">
-              wished
-            </button>
-          </div>
-          {user.email == bookData.email && (
-            <>
-              <Link to={`/edit-book/${bookData?._id}`}>
-                <button className="btn btn-sm btn-ghost">Edit</button>
-              </Link>
+
+            <div className="flex flex-col justify-center text-black p-8 lg:p-16 lg:pl-10 lg:w-1/2">
+              <div>
+                <p className="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-400">
+                  Brand new
+                </p>
+              </div>
+              <h5 className="mb-3 text-3xl font-extrabold leading-none sm:text-4xl">
+                {title}
+              </h5>
+              <p className="mb-5 ">Authors: {author}</p>
+              <p className="mb-5 ">Publisher: {publicationDate}</p>
+              <p className="inline-flex items-center font-semibold transition-colors duration-200 text-blue-400 hover:text-deep-purple-800">
+                Price: {price}
+              </p>
               <button
-                onClick={handleDeleteBook}
-                className="ml-2 btn btn-sm btn-error"
+                onClick={handleWishList}
+                className="my-3 btn btn-secondary"
               >
-                Delete
+                wished
               </button>
-            </>
-          )}
-        </div>
-        <div className="mt-5">
-          {user.email && (
-            <form onSubmit={handleAddReview}>
-              <label htmlFor="review" className="text-lg font-[500] my-3">
-                Write Review
-              </label>
-              <textarea
-                id="review"
-                value={reviewComment}
-                onChange={(e) => setReviewComment(e.target.value)}
-                className="w-full h-32 p-2 mb-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
-                placeholder="Write your review here..."
-                required
-              ></textarea>
-              {loading ? (
+            </div>
+            {user.email == bookData.email && (
+              <>
+                <Link to={`/edit-book/${bookData?._id}`}>
+                  <button className="btn btn-sm btn-ghost">Edit</button>
+                </Link>
                 <button
-                  disabled
-                  className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+                  onClick={handleDeleteBook}
+                  className="ml-2 btn btn-sm btn-error"
                 >
-                  Loading...
+                  Delete
                 </button>
+              </>
+            )}
+          </div>
+          <div className="mt-10">
+            <div className="my-4">
+              {bookData?.customerReviews?.length > 0 ? ( // Add optional chaining here
+                <ul className="space-y-4">
+                  {bookData?.customerReviews?.map(
+                    (
+                      review: { email: string; comment: string },
+                      index: Key | null | undefined
+                    ) => (
+                      <li key={index} className="flex items-start mt-4">
+                        <img
+                          className="h-8 w-8 rounded-full"
+                          src="https://source.unsplash.com/40x40/?portrait?4"
+                          alt="User Profile"
+                        />
+                        <div className="ml-4">
+                          <p className="font-[600]">{review.email}</p>
+                          <p className="py-2 rounded">{review.comment}</p>
+                        </div>
+                      </li>
+                    )
+                  )}
+                </ul>
               ) : (
-                <button type="submit" className="btn btn-primary">
-                  Submit Review
-                </button>
+                <p>No reviews yet.</p>
               )}
-            </form>
-          )}
-          <div className="mb-4">
-            {bookData?.customerReviews?.length > 0 ? ( // Add optional chaining here
-              <ul className="space-y-4">
-                {bookData?.customerReviews?.map(
-                  (
-                    review: { email: string; comment: string },
-                    index: Key | null | undefined
-                  ) => (
-                    <li key={index} className="flex items-start mt-4">
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://source.unsplash.com/40x40/?portrait?4"
-                        alt="User Profile"
-                      />
-                      <div className="ml-4">
-                        <p className="font-[600]">{review.email}</p>
-                        <p className="py-2 rounded">{review.comment}</p>
-                      </div>
-                    </li>
-                  )
+            </div>
+            {user.email && (
+              <form onSubmit={handleAddReview}>
+                <label htmlFor="review" className="text-lg font-[500] my-3">
+                  Write Review
+                </label>
+                <textarea
+                  id="review"
+                  value={reviewComment}
+                  onChange={(e) => setReviewComment(e.target.value)}
+                  className="w-full h-32 p-2 mb-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
+                  placeholder="Write your review here..."
+                  required
+                ></textarea>
+                {loading ? (
+                  <button
+                    disabled
+                    className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+                  >
+                    Loading...
+                  </button>
+                ) : (
+                  <button type="submit" className="btn btn-primary">
+                    Submit Review
+                  </button>
                 )}
-              </ul>
-            ) : (
-              <p>No reviews yet.</p>
+              </form>
             )}
           </div>
         </div>
       </div>
+      <RecentBooks />
     </div>
   );
 }
