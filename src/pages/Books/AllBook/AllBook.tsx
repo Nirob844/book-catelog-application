@@ -21,7 +21,7 @@ export default function AllBook({ book }: IProps) {
     <div>
       <div>
         <div className="relative overflow-hidden transition duration-200 transform rounded shadow-xl hover:-translate-y-2 hover:shadow-2xl">
-          <div>
+          <div className="h-[450px]">
             <Link to={`/book-details/${book._id}`} aria-label="View Item">
               <div className="rounded-t-md px-5 py-3">
                 <img className="w-60 h-64" src={image} alt="" />
@@ -42,7 +42,10 @@ export default function AllBook({ book }: IProps) {
               </div>
             </Link>
           </div>
-          <button onClick={handleWishList} className="w-full btn btn-secondary">
+          <button
+            onClick={handleWishList}
+            className="w-full btn btn-active btn-neutral"
+          >
             wished
           </button>
         </div>

@@ -66,7 +66,10 @@ const WishListCart: React.FC<WishListCartProps> = ({ book, payload }) => {
             Genre: {genre}
           </p>
         </div>
-        <div onClick={handleBookSlice} className="btn btn-accent w-full">
+        <div
+          onClick={handleBookSlice}
+          className="btn btn-active btn-neutral w-full"
+        >
           {payload}
         </div>
       </div>

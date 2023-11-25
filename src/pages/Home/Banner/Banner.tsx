@@ -22,7 +22,7 @@ export default function Banner() {
                 emotional well-being.
               </p>
             </div>
-            <button className="mt-5 border-2 border-[#2563EB] hover:bg-[#2563EB] hover:text-white font-[500] px-[12px] py-[4px] rounded-[8px]">
+            <button className="mt-5 border-2 border-[#151b27] hover:bg-[#171d29] hover:text-white font-[500] px-[12px] py-[4px] rounded-[8px]">
               Learn more
             </button>
           </div>
